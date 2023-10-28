@@ -1,0 +1,40 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: ci
+    container_name: db_client
+    restart: unless-stopped
+    volumes:
+      - ./app:/app
+    command: npm run dev
+    # TODO use .env files for credentials
+    environment:
+      MONGO_URI: 'mongodb://mongodb:27017/dial_ninja'
+      RABBITMQ_USER: 'username'
+      RABBITMQ_PASS: 'password'
+    depends_on:
+      - mongodb
+    networks:
+      ninja_shared: { }
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - data:/data/db
+    networks:
+      ninja_shared: { }
+
+networks:
+  ninja_shared:
+    external: true
+
+volumes:
+  data:
