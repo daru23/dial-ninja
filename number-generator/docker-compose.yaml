@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  app:
+    build: .
+    container_name: number_generator
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./app:/app
+    command: tail -f /dev/null
+    # TODO use .env files for credentials
+    environment:
+      RABBITMQ_USER: "username"
+      RABBITMQ_PASS: "password"
+    networks:
+      ninja_shared: { }
+
+networks:
+  ninja_shared:
+    external: true

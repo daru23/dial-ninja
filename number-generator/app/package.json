@@ -1,0 +1,28 @@
+{
+  "name": "number-generator",
+  "version": "0.0.1",
+  "description": "generates a random number from 10.000.000.000 till 999.999.999.999",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "build": "tsc",
+    "dev": "nodemon index.ts",
+    "test": "mocha --require ts-node/register index.test.ts"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.9",
+    "@types/mocha": "^10.0.3",
+    "@types/node": "^20.8.9",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "author": "Daniela Ruiz",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.3.1"
+  }
+}
