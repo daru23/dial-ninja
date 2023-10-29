@@ -7,7 +7,7 @@
     "start": "ts-node index.ts",
     "build": "tsc",
     "dev": "nodemon index.ts",
-    "test": "mocha tests"
+    "test": "mocha --require ts-node/register index.test.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.3.9",
