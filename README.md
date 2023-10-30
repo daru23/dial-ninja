@@ -34,6 +34,6 @@ Additionally every application can be run independently, they have their own `do
 - Fix unit tests of db-client (currently broken)
 - Add more and useful tests to the applications
 - ~~Add support for more country codes (currently only NL is being found)~~
-- Fix number-generator script to have a graceful exit. At the moment it keeps hanging.
+- ~~Fix number-generator script to have a graceful exit. At the moment it keeps hanging.~~
 - Improve error handler in the application. Currently, if rabbitmq is not up and running the application crash.
 - Create separate files for types.
