@@ -1,0 +1,81 @@
+version: '3.2'
+services:
+  msg_bus:
+    image: rabbitmq:3.13.0-rc.1-management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'your_secret_cookie'
+      RABBITMQ_DEFAULT_USER: 'username'
+      RABBITMQ_DEFAULT_PASS: 'password'
+
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      ninja_shared: {}
+
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - data:/data/db
+    networks:
+      ninja_shared: { }
+
+  db_client:
+    build:
+      context: ./db-client
+    environment:
+      MONGO_URI: 'mongodb://db:27017/dial_ninja'
+      RABBITMQ_URI: 'amqp://username:password@msg_bus'
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./db-client/app:/app
+    command: npm run dev
+    depends_on:
+      - msg_bus
+      - db
+    networks:
+      ninja_shared: { }
+
+  number_processor:
+    build:
+      context: ./number-processor
+    restart: unless-stopped
+    volumes:
+      - ./number-processor/app:/app
+    command: npm run dev # this app needs to be always listening for messages
+    environment:
+      RABBITMQ_URI: 'amqp://username:password@msg_bus'
+    depends_on:
+      - msg_bus
+    networks:
+      ninja_shared: { }
+
+  number_generator:
+    build:
+      context: ./number-generator
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./number-generator/app:/app
+    command: tail -f /dev/null
+    environment:
+      RABBITMQ_URI: 'amqp://username:password@msg_bus'
+    depends_on:
+      - msg_bus
+    networks:
+      ninja_shared: { }
+
+networks:
+  ninja_shared:
+    external: true
+
+volumes:
+  data:
