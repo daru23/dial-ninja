@@ -29,6 +29,7 @@ export async function sendToProcessor (n: number) {
 
         // Sending message to the queue
         await channel.sendToQueue(queueProcessor, Buffer.from(`${n}`));
+        conn.close();
 
     } catch (error) {
         console.log(error)
@@ -42,7 +43,7 @@ export async function sendToProcessor (n: number) {
         await sendToProcessor(numberGenerator());
     } catch (error) {
         console.log(error);
-        process.exit(1);
+        process.exit(1); // find a better way to kill this process
     }
 })();
 
