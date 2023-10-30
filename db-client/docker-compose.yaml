@@ -1,12 +1,11 @@
 # Use root/example as user/password credentials
-version: '3.1'
+version: '3.2'
 
 services:
   app:
     build:
       dockerfile: Dockerfile
       context: .
-      target: ci
     container_name: db_client
     restart: unless-stopped
     volumes:
@@ -15,6 +14,7 @@ services:
     # TODO use .env files for credentials
     environment:
       MONGO_URI: 'mongodb://mongodb:27017/dial_ninja'
+      RABBITMQ_URI: 'amqp://username:password@$rabbitmq'
       RABBITMQ_USER: 'username'
       RABBITMQ_PASS: 'password'
     depends_on:

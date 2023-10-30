@@ -11,8 +11,7 @@ services:
     command: npm run dev # this app needs to be always listening for messages
     # TODO use .env files for credentials
     environment:
-      RABBITMQ_USER: "username"
-      RABBITMQ_PASS: "password"
+      RABBITMQ_URI: 'amqp://username:password@$rabbitmq'
     networks:
       ninja_shared: { }
 

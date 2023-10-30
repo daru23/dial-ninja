@@ -1,7 +1,7 @@
-const amqplib = require('amqplib');
+const amqplib = require("amqplib");
 
 // Load environment variables from .env file
-require('dotenv').config();
+require("dotenv").config();
 
 const MIN = 10000000000;
 const MAX = 999999999999;
@@ -20,11 +20,8 @@ export function numberGenerator (): number {
  */
 export async function sendToProcessor (n: number) {
     try{
-        // Configuring rabbitmq and establishing the connection
-        const queueProcessor = 'processor';
-        const rabbitUser = process.env.RABBITMQ_USER
-        const rabbitPassword = process.env.RABBITMQ_PASS
-        const rabbitmqConnection = `amqp://${rabbitUser}:${rabbitPassword}@rabbitmq`
+        const queueProcessor = "processor";
+        const rabbitmqConnection = process.env.RABBITMQ_URI
         const conn = await amqplib.connect(rabbitmqConnection);
         const channel = await conn.createChannel();
 
@@ -43,7 +40,6 @@ export async function sendToProcessor (n: number) {
 (async () => {
     try {
         await sendToProcessor(numberGenerator());
-        process.exit(0);
     } catch (error) {
         console.log(error);
         process.exit(1);

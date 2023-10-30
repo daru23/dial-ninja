@@ -2,7 +2,7 @@ const amqplib = require("amqplib");
 const mongoose = require("mongoose");
 
 // Load environment variables from .env file
-require("dotenv").config()
+require("dotenv").config();
 
 mongoose.connect(process.env.MONGO_URI);
 
@@ -51,11 +51,8 @@ export async function savePhoneNumber(document: PhoneNumber) {
 
 (async () => {
     try {
-        // Configuring rabbitmq and establishing the connection
         const queueStore = "store";
-        const rabbitUser = process.env.RABBITMQ_USER
-        const rabbitPassword = process.env.RABBITMQ_PASS
-        const rabbitmqConnection = `amqp://${rabbitUser}:${rabbitPassword}@rabbitmq`
+        const rabbitmqConnection = process.env.RABBITMQ_URI
         const conn = await amqplib.connect(rabbitmqConnection);
         const channel = await conn.createChannel();
         await channel.assertQueue(queueStore);

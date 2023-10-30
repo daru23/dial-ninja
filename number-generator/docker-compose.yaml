@@ -4,7 +4,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-      target: ci
     container_name: number_generator
     restart: unless-stopped
     tty: true
@@ -14,8 +13,7 @@ services:
     command: tail -f /dev/null
     # TODO use .env files for credentials
     environment:
-      RABBITMQ_USER: "username"
-      RABBITMQ_PASS: "password"
+      RABBITMQ_URI: 'amqp://username:password@$rabbitmq'
     networks:
       ninja_shared: { }
 

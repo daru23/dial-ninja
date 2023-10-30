@@ -72,9 +72,7 @@ export function numberProcessor(inputString: string): PhoneNumber | null {
 export async function sendToDatabase (phoneNumber: PhoneNumber) {
     try {
         const queueStore = 'store';
-        const rabbitUser = process.env.RABBITMQ_USER
-        const rabbitPassword = process.env.RABBITMQ_PASS
-        const rabbitmqConnection = `amqp://${rabbitUser}:${rabbitPassword}@rabbitmq`
+        const rabbitmqConnection = process.env.RABBITMQ_URI
         const conn = await amqplib.connect(rabbitmqConnection);
 
         const channel = await conn.createChannel();
@@ -87,14 +85,11 @@ export async function sendToDatabase (phoneNumber: PhoneNumber) {
         console.log(error)
     }
 
-};
+}
 
 (async () => {
     const queueProcessor = 'processor';
-    // TODO create a method to connect to rabbitmq to not repeat this code
-    const rabbitUser = process.env.RABBITMQ_USER
-    const rabbitPassword = process.env.RABBITMQ_PASS
-    const rabbitmqConnection = `amqp://${rabbitUser}:${rabbitPassword}@rabbitmq`
+    const rabbitmqConnection = process.env.RABBITMQ_URI
     const conn = await amqplib.connect(rabbitmqConnection);
 
     const channel = await conn.createChannel();
