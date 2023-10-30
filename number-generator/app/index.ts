@@ -29,7 +29,7 @@ export async function sendToProcessor (n: number) {
 
         // Sending message to the queue
         await channel.sendToQueue(queueProcessor, Buffer.from(`${n}`));
-        conn.close();
+        // conn.close();
 
     } catch (error) {
         console.log(error)
