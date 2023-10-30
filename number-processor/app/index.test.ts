@@ -5,15 +5,22 @@ require("dotenv").config()
 
 describe("find ISO Country Codes", () => {
 
-    it("gets dutch country code", async () => {
-        const isoCountryCode = findISOCountryCode(31);
+    it("gets The Netherlands country code", async () => {
+        const isoCountryCode = findISOCountryCode("31");
 
         // Check the captured logs
         expect(isoCountryCode).to.be.equal("NL");
     });
 
-    it("gets empty country code", async () => {
-        const isoCountryCode = findISOCountryCode(35);
+    it("gets Venezuela country code", async () => {
+        const isoCountryCode = findISOCountryCode("58");
+
+        // Check the captured logs
+        expect(isoCountryCode).to.be.equal("VE");
+    });
+
+    it("gets unknown country code", async () => {
+        const isoCountryCode = findISOCountryCode("12345");
 
         // Check the captured logs
         expect(isoCountryCode).to.be.equal("");
