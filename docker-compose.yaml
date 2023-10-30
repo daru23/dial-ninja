@@ -29,6 +29,7 @@ services:
   db_client:
     build:
       context: ./db-client
+    restart: on-failure
     environment:
       MONGO_URI: 'mongodb://db:27017/dial_ninja'
       RABBITMQ_URI: 'amqp://username:password@msg_bus'
@@ -44,7 +45,7 @@ services:
   number_processor:
     build:
       context: ./number-processor
-    restart: unless-stopped
+    restart: on-failure
     volumes:
       - ./number-processor/app:/app
     command: npm run dev # this app needs to be always listening for messages
