@@ -142,6 +142,7 @@ export async function sendToDatabase (phoneNumber: PhoneNumber) {
 
         } else {
             console.log('Consumer cancelled by server');
+            process.exit(1);
         }
     });
 

@@ -73,6 +73,7 @@ export async function savePhoneNumber(document: PhoneNumber) {
 
     } catch (error) {
         console.log(error);
+        process.exit(1);
     }
 
 })();
