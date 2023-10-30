@@ -1,7 +1,10 @@
 version: '3.2'
 services:
   app:
-    build: .
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: ci
     container_name: number_generator
     restart: unless-stopped
     tty: true
