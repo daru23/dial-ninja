@@ -32,8 +32,6 @@ services:
     environment:
       MONGO_URI: 'mongodb://db:27017/dial_ninja'
       RABBITMQ_URI: 'amqp://username:password@msg_bus'
-    ports:
-      - '27017:27017'
     volumes:
       - ./db-client/app:/app
     command: npm run dev
