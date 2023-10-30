@@ -1,7 +1,10 @@
-const amqplib = require('amqplib');
+const amqplib = require("amqplib");
+// reference https://github.com/LucianoGanga/country-codes-list/blob/master/countriesData.js and
+// https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+const countryData = require("./countriesData");
 
 // Load environment variables from .env file
-require('dotenv').config();
+require("dotenv").config();
 
 interface Message {
     content: string;
@@ -14,6 +17,23 @@ interface PhoneNumber {
     isMobile: boolean
 }
 
+interface Country {
+    countryNameEn: string,
+    countryNameLocal: string,
+    countryCode: string,
+    currencyCode: string,
+    currencyNameEn: string,
+    tinType: string,
+    tinName: string,
+    officialLanguageCode: string,
+    officialLanguageNameEn: string,
+    officialLanguageNameLocal: string,
+    countryCallingCode: string,
+    areaCodes: object,
+    region: string,
+    flag: string
+}
+
 export function createPhoneNumber(inputString: string): PhoneNumber | null {
     try {
         const parsedNumber: number = parseInt(inputString);
@@ -21,7 +41,7 @@ export function createPhoneNumber(inputString: string): PhoneNumber | null {
         if (10000000000 <= parsedNumber && parsedNumber <= 999999999999) {
             const countryCode = parseInt(inputString.substring(0, 2));
             const pNumber = parseInt(inputString.substring(2));
-            const isoCode = findISOCountryCode(countryCode);
+            const isoCode = findISOCountryCode(countryCode.toString());
             let isMobile = false;
 
             // For now we can only know from Dutch phone numbers
@@ -44,9 +64,12 @@ export function createPhoneNumber(inputString: string): PhoneNumber | null {
 
 }
 
-export function findISOCountryCode(countryCode: number): string {
+export function findISOCountryCode(countryCode: string): string {
     // For now we only support The Netherlands (NL)
-    return countryCode == 31 ? "NL" : "";
+    const foundCountry: Country = <Country> countryData.find((country: Country) => {
+        return country.countryCallingCode === countryCode
+    })
+    return foundCountry? foundCountry.countryCode : "";
 }
 
 export function isMobileNumber(phoneNumber: string): boolean {
