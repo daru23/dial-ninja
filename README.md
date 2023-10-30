@@ -3,6 +3,12 @@ Microservices system in charge of generate, process and store phone numbers.
 
 # Run project
 
+First build the docker images
+```bash
+docker-compose build
+```
+
+Then run the services
 ```bash
 docker-compose up -d
 ```
