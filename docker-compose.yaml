@@ -35,7 +35,7 @@ services:
       RABBITMQ_URI: 'amqp://username:password@msg_bus'
     volumes:
       - ./db-client/app:/app
-    command: npm run dev
+    command: npm start
     depends_on:
       - msg_bus
       - db
@@ -48,7 +48,7 @@ services:
     restart: on-failure
     volumes:
       - ./number-processor/app:/app
-    command: npm run dev # this app needs to be always listening for messages
+    command: npm start # this app needs to be always listening for messages
     environment:
       RABBITMQ_URI: 'amqp://username:password@msg_bus'
     depends_on:
