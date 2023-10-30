@@ -31,7 +31,7 @@ export async function sendToProcessor (n: number) {
         console.log(`Sending a number to be processed: ${n}`);
 
         // Sending message to the queue
-        channel.sendToQueue(queueProcessor, Buffer.from(`${n}`));
+        await channel.sendToQueue(queueProcessor, Buffer.from(`${n}`));
 
     } catch (error) {
         console.log(error)
