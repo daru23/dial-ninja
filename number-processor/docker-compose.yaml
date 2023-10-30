@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: number_processor
+    restart: unless-stopped
+    volumes:
+      - ./app:/app
+    command: npm run dev # this app needs to be always listening for messages
+    # TODO use .env files for credentials
+    environment:
+      RABBITMQ_USER: "username"
+      RABBITMQ_PASS: "password"
+    networks:
+      ninja_shared: { }
+
+networks:
+  ninja_shared:
+    external: true
